@@ -1,15 +1,16 @@
 import express from 'express';
 import dataBase from './utils/database.js';
-import All from './models/all.models.js';
+import Task from './models/task.models.js';
+import 'dotenv/config';
 
 
 
 // inicializando servidor basico
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT ?? 8000;
 
 // ejecutando la info de la tabla creada en models
-All;
+Task;
 
 // ejecutando el middleware integrado para insertar info en el body
 app.use(express.json());
@@ -27,10 +28,10 @@ dataBase.sync()
 
 
 // creando la peticion post para crear tareas
-app.post('/alls', async (req, res) => {
+app.post('/tasks', async (req, res) => {
   try{
     const {body} = req;
-    const alls = await All.create(body);
+    const tasks = await Task.create(body);
     res.status(201).json(alls);
   }catch(error) {
     res.status(400).json(error);
@@ -38,45 +39,45 @@ app.post('/alls', async (req, res) => {
 });
 
 // creando la peticion GET para todas las tareas
-app.get('/alls', async (req, res) => {
+app.get('/tasks', async (req, res) => {
   try{
-    const alls = await All.findAll();
-    res.json(alls);
+    const task = await Task.findAll();
+    res.json(task);
   }catch(error) {
     res.status(400).json(error);
   }
 });
 
 // creando la peticion GET por id con path params
-app.get('/alls/:id', async (req, res) => {
+app.get('/tasks/:id', async (req, res) => {
   try{
     const {id} = req.params;
-    const all = await All.findByPk(id);
-    res.json(all);
+    const tasks = await Task.findByPk(id);
+    res.json(tasks);
   }catch(error) {
     res.status(400).json(error);
   }
 });
 
 // creando la peticion put para actualizar la info
-app.put('/alls/:id', async (req, res) => {
+app.put('/tasks/:id', async (req, res) => {
   try{
     const {id} = req.params;
     const {body} = req;
-    const all = await All.update(body, {
+    const tasks = await Task.update(body, {
       where: {id}
     });
-    res.json(all);
+    res.json(tasks);
   }catch(error){
     res.status(400).json(error);
   }
 });
 
 // creando la peticion delete de la tarea
-app.delete('/alls/:id', async (req, res) => {
+app.delete('/tasks/:id', async (req, res) => {
   try{
     const {id} = req.params;
-    await All.destroy({
+    await Task.destroy({
       where: {id}
     });
     res.status(204).end();

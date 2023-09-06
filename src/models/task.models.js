@@ -3,7 +3,7 @@ import dataBase from "../utils/database.js";
 
 
 // Definiendo una tabla en la base de datos 
-const All = dataBase.define('alls', {
+const Task = dataBase.define('tasks', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -23,4 +23,4 @@ const All = dataBase.define('alls', {
   }
 });
 
-export default All;
+export default Task;
